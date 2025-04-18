@@ -59,21 +59,23 @@
 					<div class="card-body">
 						<h5 class="card-title"><i class="pli-notepad me-1" style="margin-top: -3px;"></i> Kartu Rencana Studi</h5>
 
-						<form  id="form_lihat_kelas" class="mt-4">
+						<div class="alert alert-info p-2 ps-3 mt-4"><i class="pli-information me-1" style="margin-top: -3px;"></i> Silahkan lihat dan ambil kelas kuliah yang tersedia.</div>
+						<form  id="form_lihat_kelas">
 							<div class="row">
 								<div class="col-md-4 mb-2">
 									<div class="form-group">
-										<select class="form-select" required id="kode_prodi" name="kode_prodi">
-											<option value="">Pilih Program Studi</option>
-											<option value="1">Informatika</option>
+										<select class="form-select" required id="kode_prodi" name="kode_prodi" onchange="lihat_matkul(this)">
+											<option value="" hidden>Pilih Program Studi</option>
+											<?php foreach($prodi as $p): ?>
+											<option value="<?= $p->kode_prodi ?>"><?= $p->nama_prodi ?></option>
+											<?php endforeach; ?>
 										</select>
 									</div>
 								</div>
 								<div class="col-md-5 mb-2">
 									<div class="form-group">
 										<select class="form-select" required id="id_matkul" name="id_matkul">
-											<option value="">Pilih Mata Kuliah</option>
-											<option value="1">Kur 2025</option>
+											<option value="" hidden>Pilih Mata Kuliah</option>
 										</select>
 									</div>
 								</div>
@@ -136,6 +138,19 @@
 </style>
 <script>
 	var table
+
+	function lihat_matkul(e) {
+		var id_matkul = document.querySelector('#id_matkul')
+
+		var formData = new FormData()
+		formData.append('kode_prodi', e.value)
+
+		fetch('<?= base_url('inbound/get_mata_kuliah/') ?>'+e.value)
+		.then(response => response.text())
+		.then(text => {
+			id_matkul.innerHTML = text
+		})
+	}
 
 	function tambah_berkas_mitra(e) {
 		var formData = new FormData(e)

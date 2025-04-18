@@ -127,6 +127,17 @@ class Kurikulum extends CI_Controller {
 		}else{ $data['title']	 = 'Error 404';	$data['content'] = 'e404';	$this->load->view('lyt/index',$data); }
 		}else{ $data['title']	 = 'Error 401';	$data['content'] = 'e401';	$this->load->view('lyt/index',$data); }
 	}
+
+	function ubah_pmm_matkul()
+	{
+		$data = $this->input->post(null, true);
+		$pmm = $data['pmm'] == '1' ? '0' : '1';
+
+		$this->load->model('Mbkm_model');
+		$update = $this->Mbkm_model->update($_ENV['DB_GREAT'].'mata_kuliah', ['id_matkul' => $data['id_matkul']], ['pmm' => $pmm]);
+		echo $update ? 'Success' : 'Failed';
+		// print_r($data); exit;
+	}
 	
 	function simpan_mata_kuliah_kurikulum()
 	{

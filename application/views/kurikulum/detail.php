@@ -98,6 +98,7 @@
         <th>Wajib</th>
         <th>Jenis MK</th>
         <th width="1">Kategori</th>
+        <th width="1">PMM</th>
         <th>Aksi</th>
     </tr>
 </thead>
@@ -141,6 +142,7 @@
 					<td>'.$a_wajib.'</td>
 					<td>'.$value->nama_jenis_mk.'</td>
 					<td>'.$value->id_kat_mk.'</td>
+					<td><a class="text-decoration-none" href="javascript:void(0)" onclick="pmm(`'.$value->id_matkul.'`, `'.$value->pmm.'`)">'.($value->pmm ? 'Y' : 'N').'</td>
 					<td>'.$btn.'</td>
 				</tr>
 			';
@@ -211,6 +213,33 @@
 </div>
 <!-- Modal -->
 <script>
+function pmm(id_matkul, pmm) {
+	var konfirmasi = confirm('Apakah anda yakin?')
+
+	if (konfirmasi) {
+		var data = new FormData()
+
+		data.append('id_matkul', id_matkul);
+		data.append('pmm', pmm);
+		
+		fetch('<?=base_url('kurikulum/ubah_pmm_matkul/')?>', {
+			method: 'POST',
+			body: data
+		})
+		.then((response) => response.text())
+		.then((text) => {
+			if(text==0){
+				Toastify({ text: "Gatot!",	style: { background: "<?=$_ENV['CLR_PRI']?>",	} }).showToast();
+			}else{
+				Toastify({ text: "Tersimpan. Silahkan refresh halaman.",	style: { background: "<?=$_ENV['CLR_SUC']?>",	} }).showToast();
+			}
+		})
+		.catch(error => {
+			console.log(error)
+		})   
+	}
+}
+
 function ubah_mk_kur(id_mata_kuliah_kurikulum)
 {
     smt = document.getElementById('id_mk_'+id_mata_kuliah_kurikulum).value

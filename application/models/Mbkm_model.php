@@ -153,9 +153,26 @@ class Mbkm_model extends CI_Model {
 		return $this->db->get($_ENV['DB_MBKM'].'mitra m');
 	}
 
+	function get_mata_kuliah($where)
+	{
+		$this->db->select('*');
+		$this->db->from($_ENV['DB_GREAT'].'mata_kuliah_kurikulum mkk');
+		$this->db->join($_ENV['DB_GREAT'].'kurikulum k','k.id_kur=mkk.id_kur');
+		$this->db->join($_ENV['DB_GREAT'].'mata_kuliah mk','mk.id_matkul=mkk.id_matkul');
+		$this->db->where($where);
+
+		// $this->db->join($_ENV['DB_REF'].'prodi b','d.kode_prodi=b.kode_prodi');
+		// $this->db->join($_ENV['DB_REF'].'fakultas c','c.kode_fak=b.kode_fak');
+		// $this->db->join($_ENV['DB_REF'].'jenis_mata_kuliah e','d.jns_mk=e.inisial_jenis_mk','left');
+		// // $this->db->order_by('a.smt','asc');
+		// $this->db->order_by('a.no_urut','asc');
+		// $this->db->order_by('d.nm_mk','asc');
+		return $this->db->get();
+	}
+
 	function get_mata_kuliah_kurikulum($where)
 	{
-		$this->db->select('a.id_mata_kuliah_kurikulum,a.no_urut,d.kode_mk,d.nm_mk,d.sks_mk,d.jns_mk,a.smt,e.nama_jenis_mk,a.a_wajib,d.id_matkul, d.id_kat_mk,a.id_matkul_konv');
+		$this->db->select('a.id_mata_kuliah_kurikulum,a.no_urut,d.kode_mk,d.nm_mk,d.sks_mk,d.jns_mk,a.smt,e.nama_jenis_mk,a.a_wajib,d.id_matkul, d.id_kat_mk,a.id_matkul_konv, k.kur_aktif, mk.kode_prodi');
 		$this->db->where($where);
 		$this->db->join($_ENV['DB_GREAT'].'kurikulum k','k.id_kur=a.id_kur');
 		$this->db->join($_ENV['DB_GREAT'].'mata_kuliah d','a.id_matkul=d.id_matkul');

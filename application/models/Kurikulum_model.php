@@ -125,7 +125,7 @@ class Kurikulum_model extends CI_Model {
 	
 	function get_mata_kuliah_kurikulum($id_kur)
 	{
-		$this->db->select('a.id_mata_kuliah_kurikulum,a.no_urut,d.kode_mk,d.nm_mk,d.sks_mk,d.jns_mk,a.smt,e.nama_jenis_mk,a.a_wajib,d.id_matkul, d.id_kat_mk,a.id_matkul_konv');
+		$this->db->select('a.id_mata_kuliah_kurikulum,a.no_urut,d.kode_mk,d.nm_mk,d.sks_mk,d.jns_mk,a.smt,e.nama_jenis_mk,a.a_wajib,d.id_matkul, d.id_kat_mk,a.id_matkul_konv, d.pmm');
 		$this->db->where('a.id_kur',$id_kur);
 		$this->db->join($_ENV['DB_GREAT'].'mata_kuliah d','a.id_matkul=d.id_matkul');
 		$this->db->join($_ENV['DB_REF'].'prodi b','d.kode_prodi=b.kode_prodi');
