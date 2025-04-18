@@ -40,6 +40,7 @@ class Biodata extends CI_Controller {
 			$data['agama'] = $this->Main_model->ref_agama();
 	        $data['kecamatan'] = $this->Main_model->ref_kecamatan();
 			$data['title'] 		= 'Biodata';
+			$data['lead'] 		= 'Pastikan bahwa kamu melengkapi biodata.';
 			$data['content'] 	= 'biodata/edit_v2';
 			
 			$this->load->view('lyt/index',$data);
